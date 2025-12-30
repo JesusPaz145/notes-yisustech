@@ -48,5 +48,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Using npx is safer now that HOME and NPM_CONFIG_CACHE are set
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node server.js"]
+# Using npx with a specific version to ensure compatibility and avoid P1012 errors from Prisma 7
+CMD ["sh", "-c", "npx prisma@5.22.0 db push --accept-data-loss && node server.js"]
