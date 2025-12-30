@@ -17,7 +17,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "swr": "^2.3.8",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -27,7 +28,6 @@
     "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
-    "prisma": "^5.22.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

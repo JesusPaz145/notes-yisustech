@@ -28,21 +28,23 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV HOME=/home/nextjs
+ENV NPM_CONFIG_CACHE=/home/nextjs/.npm
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs --home /home/nextjs
+RUN mkdir -p /home/nextjs/.npm && chown -R nextjs:nodejs /home/nextjs
 
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
-# We need prisma CLI and engines for the runtime db push
+# Copy only what is strictly necessary for prisma CLI at runtime
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 
 USER nextjs
 
@@ -51,6 +53,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Start script to run migrations and then start the app
-# Using the local binary directly avoids npx permission issues
+# Using the local binary path directly to avoid npx issues
 CMD ["sh", "-c", "./node_modules/.bin/prisma db push --accept-data-loss && node server.js"]
