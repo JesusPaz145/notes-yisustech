@@ -41,6 +41,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
+# Essential Prisma modules and binaries for runtime migrations
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin ./node_modules/.bin
+
 USER nextjs
 
 EXPOSE 3000
@@ -48,5 +53,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Using npx with a specific version to ensure compatibility and avoid P1012 errors from Prisma 7
-CMD ["sh", "-c", "npx prisma@5.22.0 db push --accept-data-loss && node server.js"]
+# Using the local binary path directly helps avoid WASM path resolution issues
+CMD ["sh", "-c", "./node_modules/.bin/prisma db push --accept-data-loss && node server.js"]
