@@ -5,7 +5,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./prisma:/app/prisma
+      - yisus_notes_db:/app/prisma
     restart: always
     environment:
       - NODE_ENV=production
+
+volumes:
+  yisus_notes_db:
