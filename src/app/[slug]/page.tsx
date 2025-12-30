@@ -75,7 +75,10 @@ export default function NotePage({ params }: { params: Promise<{ slug: string }>
             className="w-full max-w-5xl h-[80vh] flex flex-col"
         >
             <div className="flex items-center justify-between mb-4 px-2">
-                <h1 className="text-2xl font-bold gradient-text">YisusNotes <span className="text-sm font-mono opacity-50 ml-2">/{slug}</span></h1>
+                <div className="flex items-center gap-3">
+                    <img src="/logo-jp.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg shadow-lg shadow-red-950/50" />
+                    <h1 className="text-2xl font-bold gradient-text">Notes <span className="text-sm font-mono opacity-50 ml-2">/{slug}</span></h1>
+                </div>
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                     {isSaving ? (
                         <div className="flex items-center gap-1 text-red-400">

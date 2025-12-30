@@ -1,0 +1,11 @@
+services:
+  notes-app:
+    build: .
+    container_name: yisusnotes
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./prisma:/app/prisma
+    restart: always
+    environment:
+      - NODE_ENV=production
